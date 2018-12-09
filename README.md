@@ -1,10 +1,13 @@
 # Fortnite-terminal
-Bash script which brings default dance to your terminal + audio
+Bash script to bring the default dance and tune to a terminal near you.
 
 ## Press B to dance
 If you're in-game. Otherwise type this into your terminal:
+
 `curl -Ls tinyurl.com/fndance | bash`
+
 Which is equivalent to:
+
 `curl -Ls https://raw.githubusercontent.com/EmersonYe/fortnite-terminal/master/dance | bash`
 
 ## Shoutout
