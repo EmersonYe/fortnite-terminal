@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+afplay -t 7 dancesong.mp3 &
+
+cd frames
+NUM_FILES=$( expr $(ls -l | wc -l) - 1)
+COUNTER=0
+while [ $COUNTER -lt $NUM_FILES ]; do
+    clear
+    COLOR=$[RANDOM%8+30]
+    echo -e "\033[$COLOR;1;m"
+    cat $COUNTER.txt
+    sleep .6
+    let COUNTER=COUNTER+1
+done
