@@ -1,15 +1,39 @@
 #!/usr/bin/env bash
+# Fortnite default dance in your Terminal
+# By Emerson Ye
+version='1.0'
+dusty_depo='https://raw.githubusercontent.com/EmersonYe/fortnite-terminal/master'
+audio="$dusty_depo/dancesong.mp3"
+frames="$dusty_depo/frames"
 
-afplay -t 7 dancesong.mp3 &
+num_frames=10
 
-cd frames
-NUM_FILES=$( expr $(ls -l | wc -l) - 1)
+has?() { hash $1 2>/dev/null; }
+
+# Stream agnostic to curl or wget availability (thanks @Keroserene)
+obtainium() {
+  if has? curl; then curl -s $1
+  elif has? wget; then wget -q -O - $1
+  else echo "Cannot has internets. :(" && exit
+  fi
+}
+[ -f /tmp/dance_song.mp3 ] || obtainium $audio>/tmp/dance_song.mp3
+if ! [ -d /tmp/frames ]; then
+	mkdir /tmp/frames
+	COUNTER=0
+	while [ $COUNTER -le $num_frames ]; do
+		obtainium $frames/$COUNTER.txt>/tmp/frames/$COUNTER.txt
+	    let COUNTER=COUNTER+1
+	done	
+fi
+afplay /tmp/dance_song.mp3 &
+
 COUNTER=0
-while [ $COUNTER -lt $NUM_FILES ]; do
+while [ $COUNTER -le $num_frames ]; do
     clear
     COLOR=$[RANDOM%8+30]
     echo -e "\033[$COLOR;1;m"
-    cat $COUNTER.txt
+    cat /tmp/frames/$COUNTER.txt
     sleep .6
     let COUNTER=COUNTER+1
 done
